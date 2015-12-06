@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+# Connect to localhost SMTP server and send an email.
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+$DIR/tools/swaks --to hello@world.tld --from foo@bar.tld --server localhost --port 25

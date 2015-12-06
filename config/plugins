@@ -1,0 +1,13 @@
+# CONNECT
+
+# HELO
+
+# MAIL FROM
+
+# RCPT TO
+rcpt_to.in_host_list
+
+# DATA
+
+# QUEUE
+queue_webhook

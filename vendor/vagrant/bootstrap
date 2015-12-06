@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function run {
+  local cmd=$@
+
+  echo ">> Run: ${cmd}"
+  $cmd
+}
+
+# Install node and npm
+run sudo apt-get update
+run sudo apt-get install --assume-yes nodejs npm
+run sudo ln --force --symbolic /usr/bin/nodejs /usr/bin/node
+
+# Install Haraka
+run sudo npm install --loglevel error --global Haraka

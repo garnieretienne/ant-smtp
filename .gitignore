@@ -1,0 +1,12 @@
+# Vagrant files
+.vagrant/
+
+# Dynamically generated config file
+config/smtp.ini
+config/webhook_url
+
+# NPM debug file
+npm-debug.log
+
+# Node modules
+node_modules

@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+var fs = require("fs");
+var path = require("path");
+var spawn = require("child_process").spawn;
+var rootPath = path.dirname(require.main.filename) + "/..";
+
+// Generate the "smtp.ini" core configuration file
+var generateSMTPConfig = function(smtp_ini_path) {
+  var data = "";
+  var host = process.env.HOST || "[::0]";
+  var port = process.env.PORT || "25";
+
+  data += "listen=" + host + ":" + port;
+
+  fs.writeFileSync(smtp_ini_path, data);
+}
+
+// Generate the "webhook_url" plugin configuration file
+var generateQueueWebhookConfig = function(webhook_url_path) {
+  var data = "";
+  var webhook_url = process.env.WEBHOOK_URL || "http://localhost/incoming"
+
+  data += webhook_url;
+
+  fs.writeFileSync(webhook_url_path, data);
+}
+
+var generateCoreConfiguration = function(configPath) {
+  generateSMTPConfig(configPath + "/smtp.ini");
+};
+
+var generatePluginsConfiguration = function(configPath) {
+  generateQueueWebhookConfig(configPath + "/webhook_url");
+};
+
+var generateConfiguration = function(configPath) {
+  generateCoreConfiguration(configPath);
+  generatePluginsConfiguration(configPath);
+};
+
+var startHaraka = function(rootPath) {
+  var haraka = spawn("haraka", ["--config", rootPath], {stdio: "inherit"});
+
+  process.on("SIGINT", function() {
+    haraka.kill("SIGINT");
+  });
+
+  haraka.on("exit", function(code) {
+    process.exit(code);
+  });
+};
+
+generateConfiguration(rootPath + "/config");
+startHaraka(rootPath);

@@ -1,0 +1,14 @@
+{
+  "name": "smtp",
+  "description": "An SMTP Server",
+  "version": "0.0.1",
+  "bin": {
+    "smtp": "./bin/smtp"
+  },
+  "scripts": {
+    "start": "./bin/smtp"
+  },
+  "dependencies": {
+    "Haraka": "~2.7.0"
+  }
+}
