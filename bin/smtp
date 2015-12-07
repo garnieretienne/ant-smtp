@@ -1,9 +1,11 @@
 #!/usr/bin/env node
+// 
+// This script is a wrapper around the Haraka CLI.
+// It's purpose is to allow generating Haraka config dynamically.
 
 var fs = require("fs");
 var path = require("path");
 var spawn = require("child_process").spawn;
-var rootPath = path.dirname(require.main.filename) + "/..";
 
 // Generate the "smtp.ini" core configuration file
 var generateSMTPConfig = function(smtp_ini_path) {
@@ -26,19 +28,23 @@ var generateQueueWebhookConfig = function(webhook_url_path) {
   fs.writeFileSync(webhook_url_path, data);
 }
 
+// Generate every core configuration files
 var generateCoreConfiguration = function(configPath) {
   generateSMTPConfig(configPath + "/smtp.ini");
 };
 
+// Generate every plugins configuration files
 var generatePluginsConfiguration = function(configPath) {
   generateQueueWebhookConfig(configPath + "/webhook_url");
 };
 
+// Generate the configuration for Haraka
 var generateConfiguration = function(configPath) {
   generateCoreConfiguration(configPath);
   generatePluginsConfiguration(configPath);
 };
 
+// Start the Haraka process
 var startHaraka = function(rootPath) {
   var haraka = spawn("haraka", ["--config", rootPath], {stdio: "inherit"});
 
@@ -51,5 +57,12 @@ var startHaraka = function(rootPath) {
   });
 };
 
-generateConfiguration(rootPath + "/config");
-startHaraka(rootPath);
+// Generate configuration dynamically and start Haraka
+var main = function() {
+  var rootPath = path.dirname(require.main.filename) + "/..";
+
+  generateConfiguration(rootPath + "/config");
+  startHaraka(rootPath);
+};
+
+main();
