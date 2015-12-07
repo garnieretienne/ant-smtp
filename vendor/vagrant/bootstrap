@@ -12,5 +12,11 @@ run sudo apt-get update
 run sudo apt-get install --assume-yes nodejs npm
 run sudo ln --force --symbolic /usr/bin/nodejs /usr/bin/node
 
+# Instal ruby and rubygem
+run sudo apt-get install --assume-yes ruby2.0
+
+# Install foreman
+run sudo gem install foreman
+
 # Install Haraka
 run sudo npm install --loglevel error --global Haraka

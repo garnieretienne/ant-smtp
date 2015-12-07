@@ -1,6 +1,6 @@
 {
-  "name": "smtp",
-  "description": "An SMTP Server",
+  "name": "ant-smtp",
+  "description": "Ant Mail SMTP Server",
   "version": "0.0.1",
   "bin": {
     "smtp": "./bin/smtp"

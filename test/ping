@@ -4,4 +4,4 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-$DIR/tools/swaks --to hello@world.tld --from foo@bar.tld --server ${1:-localhost} --port ${2:-25}
+$DIR/tools/swaks --to hello@world.tld --from foo@bar.tld --server ${1:-localhost} --port ${2:-5000}
