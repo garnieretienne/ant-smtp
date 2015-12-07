@@ -1,1 +1,1 @@
-smtp: npm start
+smtp-web: npm start
