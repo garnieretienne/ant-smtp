@@ -4,8 +4,8 @@ var url = require('url');
 var util = require('util');
 
 exports.hook_queue = function(next, connection) {
-  var webhook_url = this.config.get("webhook_url") || "http://localhost";
-  var httpEndpoint = url.parse(config);
+  var webhookURL = this.config.get("webhook_url") || "http://localhost";
+  var httpEndpoint = url.parse(webhookURL);
   var message = connection.transaction.message_stream;
 
   var request = http.request({
