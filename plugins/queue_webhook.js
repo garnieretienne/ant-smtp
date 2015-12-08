@@ -14,6 +14,10 @@ exports.hook_queue = function(next, connection) {
     port: httpEndpoint.port,
     path: httpEndpoint.path,
     method: "POST",
+    headers: {
+      "Content-Type": "text/plain",
+      "Transfer-Encoding": "chunked"
+    }
   });
 
   request.once("response", function(response) {
