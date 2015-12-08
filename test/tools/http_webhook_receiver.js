@@ -9,6 +9,9 @@ var handleRequest = function(req, res) {
 
   req.on("end", function() {
     console.log("\n> Received " + req.method + " on " + req.url);
+    for(var field in req.headers) {
+      console.log("* " + field + ": " + req.headers[field])
+    }
     console.log(data);
 
     switch(req.url) {
