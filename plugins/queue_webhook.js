@@ -73,7 +73,7 @@ var deliverMessage = function(messageFilePath, webhookURL, callback) {
     });
 
     response.on("end", function() {
-      var result = {success: response.statusCode == 200, msg: text};
+      var result = {success: response.statusCode == 200, text: text};
       return callback(null, result);
     });
   });
@@ -98,7 +98,7 @@ exports.hook_queue = function(next, connection) {
         return next(DENYSOFT, "An error prevented the delivery of the message");
       }
 
-      return next((result.success) ? OK : DENY , result.text);
+      return next((result.success) ? OK : DENY, result.text);
     });
   });
 };
