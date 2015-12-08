@@ -8,9 +8,20 @@ var handleRequest = function(req, res) {
   });
 
   req.on("end", function() {
-    res.end();
     console.log("\n> Received " + req.method + " on " + req.url);
     console.log(data);
+
+    switch(req.url) {
+      case "/unauthorized":
+        res.statusCode = 401;
+        res.write("Unauthorized");
+        break;
+      default:
+        res.statusCode = 200;
+        res.write("OK");
+    };
+
+    res.end();
   });
 }
 
