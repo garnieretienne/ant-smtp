@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Connect to localhost SMTP server and send an email.
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+$DIR/tools/swaks \
+    --to ${3:-root@localhost} \
+    --from test@localhost \
+    --server ${1:-localhost} \
+    --port ${2:-5000} \
+    --auth CRAM-MD5 \
+    --auth-user ${4:-foo} \
+    --auth-password ${5-bar}

@@ -1,5 +1,8 @@
 # CONNECT
 
+# AUTH
+auth/flat_file
+
 # HELO
 
 # MAIL FROM

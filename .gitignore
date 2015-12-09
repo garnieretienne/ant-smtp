@@ -4,6 +4,7 @@
 # Dynamically generated config file
 config/smtp.ini
 config/webhook_url
+config/auth_flat_file.ini
 
 # NPM debug file
 npm-debug.log
