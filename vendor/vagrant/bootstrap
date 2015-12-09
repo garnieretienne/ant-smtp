@@ -1,22 +1,32 @@
 #!/bin/bash
 
-function run {
-  local cmd=$@
+export APPROOT=${1-.}
+export APPUSER=${2-$USER}
+export APPHOME=${3-$HOME}
 
-  echo ">> Run: ${cmd}"
-  $cmd
+function topic {
+  echo ""
+  echo ">> ${@}"
 }
 
-# Install node and npm
+function run {
+  echo "> Run: ${@}"
+  $@
+}
+
+topic "Update the apt cache"
 run sudo apt-get update
-run sudo apt-get install --assume-yes nodejs npm
-run sudo ln --force --symbolic /usr/bin/nodejs /usr/bin/node
 
-# Instal ruby and rubygem
-run sudo apt-get install --assume-yes ruby2.0
+topic "Install node and npm"
+run sudo DEBIAN_FRONTEND=noninteractive apt-get install --assume-yes nodejs npm
+run sudo update-alternatives --install /usr/bin/node node /usr/bin/nodejs 1
 
-# Install foreman
+topic "Instal ruby and rubygem"
+run sudo apt-get install --assume-yes ruby
+
+topic "Install foreman gem"
 run sudo gem install foreman
 
-# Install Haraka
-run sudo npm install --loglevel error --global Haraka
+topic "Install npm dependencies"
+cd $APPROOT && run npm install --silent
+sh -c 'echo "PATH=$PATH:'$APPROOT'/node_modules/.bin" >> '$APPHOME'/.profile'

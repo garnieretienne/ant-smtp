@@ -9,7 +9,7 @@ config/webhook_url
 npm-debug.log
 
 # Node modules
-node_modules
+node_modules/
 
 # Outbound queue
 queue/
