@@ -9,7 +9,7 @@ $DIR/tools/swaks \
     --from test@localhost \
     --server ${1:-localhost} \
     --port ${2:-5000} \
-    --tls
+    --tls \
     --auth CRAM-MD5 \
     --auth-user ${4:-foo} \
     --auth-password ${5-bar}
