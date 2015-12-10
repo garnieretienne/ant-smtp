@@ -1,4 +1,5 @@
 # CONNECT
+tls
 
 # AUTH
 auth/flat_file

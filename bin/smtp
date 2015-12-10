@@ -45,6 +45,18 @@ var generateAuthFlatFileConfig = function(config_file) {
   fs.writeFileSync(config_file, data);
 }
 
+var generateTLSConfig = function(tls_key_file, tls_cert_file) {
+  var openssl_args = [
+    "req", "-x509", "-nodes",
+    "-days", "365",
+    "-newkey", "rsa:2048",
+    "-subj", "/C=/ST=/L=/O=AntMail/CN=localhost",
+    "-keyout", tls_key_file,
+    "-out", tls_cert_file
+  ]
+  spawn("openssl", openssl_args, {stdio: "ignore"});
+}
+
 // Generate every core configuration files
 var generateCoreConfiguration = function(configPath) {
   generateSMTPConfig(configPath + "/smtp.ini");
@@ -54,6 +66,7 @@ var generateCoreConfiguration = function(configPath) {
 var generatePluginsConfiguration = function(configPath) {
   generateQueueWebhookConfig(configPath + "/webhook_url");
   generateAuthFlatFileConfig(configPath + "/auth_flat_file.ini");
+  generateTLSConfig(configPath + "/tls_key.pem", configPath + "/tls_cert.pem");
 };
 
 // Generate the configuration for Haraka
