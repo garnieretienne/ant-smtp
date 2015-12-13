@@ -1,18 +1,21 @@
 # Vagrant files
-.vagrant/
+/.vagrant
 
 # Dynamically generated config file
-config/smtp.ini
-config/webhook_url
-config/auth_flat_file.ini
-config/tls_cert.pem
-config/tls_key.pem
+/config/smtp.ini
+/config/webhook_url
+/config/auth_flat_file.ini
+/config/tls_cert.pem
+/config/tls_key.pem
 
 # NPM debug file
 npm-debug.log
 
 # Node modules
-node_modules/
+/node_modules
 
 # Outbound queue
-queue/
+/queue
+
+# Env file
+/.env

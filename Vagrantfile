@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder(".", "/vagrant", type: "nfs")
   config.vm.provision(
     "shell",
-    path: "vendor/vagrant/bootstrap",
+    path: "sysop/bootstrap",
     privileged: false,
     args: "/vagrant"
   )

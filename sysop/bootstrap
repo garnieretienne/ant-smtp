@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# Script to bootstrap the app on Ubuntu 14.04
+#
+# Usage: bootstrap [APPROOT] [APPUSER] [APPHOME]
+#
+# APPROOT: The root folder where the app source lie
+# APPUSER: User that will be running the app
+# APPHOME: path to the home directory of the user running the app
+#
+# The environment to deploy in can be specified using the ENV environment
+# variable, can be "development" (default) or "production".
+
+readonly ENVIRONMENT=${ENV:-development}
+
+export APPROOT=${1-.}
+export APPUSER=${2-$USER}
+export APPHOME=${3-$HOME}
+
+function topic {
+  echo ""
+  echo ">> ${@}"
+}
+
+function run {
+  echo "> Run: ${@}"
+  "${@}"
+}
+
+function rundev {
+  if [[ $ENVIRONMENT == "development" ]]; then
+    run "${@}"
+  fi
+}
+
+function runprod {
+  if [[ $ENVIRONMENT == "production" ]]; then
+    run "${@}"
+  fi
+}
+
+topic "Bootstrap"
+echo "Environment: ${ENVIRONMENT}"
+echo "App root: ${APPROOT}"
+echo "App user: ${APPUSER}"
+echo "App home: ${APPHOME}"
+
+topic "Write environment file"
+run sudo sh -c "echo NODE_ENV=${ENVIRONMENT} >> ${APPROOT}/.env"
+
+topic "Update the apt cache"
+run sudo apt-get update
+
+topic "Install node and npm"
+run sudo DEBIAN_FRONTEND=noninteractive \
+    apt-get install --quiet --assume-yes nodejs npm
+run sudo update-alternatives --install /usr/bin/node node /usr/bin/nodejs 1
+
+topic "Instal ruby and rubygem"
+run sudo apt-get install --assume-yes ruby
+
+topic "Install foreman gem"
+run sudo gem install foreman
+
+topic "Install npm dependencies"
+rundev sudo --login --user $APPUSER sh -c "cd $APPROOT && npm install --silent"
+runprod sudo --login --user $APPUSER sh -c \
+    "cd $APPROOT && npm install --production"
+run sudo sh -c \
+    "echo PATH=\\\$PATH:${APPROOT}/node_modules/.bin >>${APPHOME}/.profile"
+
+if [[ $ENVIRONMENT == "production" ]]; then
+  topic "Register the app as a service"
+  cd $APPROOT && run sudo foreman export upstart /etc/init --app $APPUSER \
+      --user $APPUSER --port 6000
+  run sudo service ${APPUSER} start
+fi
