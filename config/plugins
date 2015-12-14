@@ -1,5 +1,6 @@
 # CONNECT
 tls
+xclient
 
 # AUTH
 auth/flat_file
