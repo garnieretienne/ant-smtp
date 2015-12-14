@@ -6,7 +6,19 @@
 var fs = require("fs");
 var path = require("path");
 var spawn = require("child_process").spawn;
+var exec = require("child_process").exec;
 var crypto = require('crypto');
+
+// Generate the "me" core configuration file
+var generateHostnameConfig = function(me_path) {
+  var data = "";
+
+  exec("hostname --fqdn", function(err, stdout, stderr) {
+    data += stdout;
+
+    fs.writeFileSync(me_path, data);
+  });
+}
 
 // Generate the "smtp.ini" core configuration file
 var generateSMTPConfig = function(smtp_ini_path) {
@@ -59,6 +71,7 @@ var generateTLSConfig = function(tls_key_file, tls_cert_file) {
 
 // Generate every core configuration files
 var generateCoreConfiguration = function(configPath) {
+  generateHostnameConfig(configPath + "/me");
   generateSMTPConfig(configPath + "/smtp.ini");
 };
 

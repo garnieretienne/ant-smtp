@@ -7,6 +7,7 @@
 /config/auth_flat_file.ini
 /config/tls_cert.pem
 /config/tls_key.pem
+/config/me
 
 # NPM debug file
 npm-debug.log
