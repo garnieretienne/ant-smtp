@@ -52,11 +52,12 @@ var generateAuthFlatFileConfig = function(config_file) {
   data += "methods=PLAIN,LOGIN,CRAM-MD5\n";
   data += "\n"
   data += "[users]\n";
-  data += "foo=bar\n";
+  data += user + "=" + password + "\n";
 
   fs.writeFileSync(config_file, data);
 }
 
+// Generate the key and certificate to use for STARTTLS
 var generateTLSConfig = function(tls_key_file, tls_cert_file) {
   var openssl_args = [
     "req", "-x509", "-nodes",
